@@ -46,7 +46,7 @@ load_rules(){
 	if [[ "$koolproxyR_fanboy_rules" == "1" ]]; then
 		echo_date 加载【Fanboy规则】
 		sed -i "s/0|fanboy/1|fanboy/g" $SOURCE_LIST	
-	fi				
+	fi	
 }
 
 start_koolproxy(){
@@ -71,6 +71,7 @@ start_koolproxy(){
 		[ "$koolproxyR_base_mode" == "2" ] && echo_date 选择【黑名单模式】
 	fi
 	cd $KP_DIR && koolproxy -d --ttl 188 --ttlport 3001 --ipv6
+
 }
 
 stop_koolproxy(){
@@ -427,6 +428,7 @@ load_nat(){
 #	[ "$koolproxyR_mode" == "2" ] && iptables -t nat -I PREROUTING "$PR_NU" -p tcp -m set --match-set black_koolproxy dst -j KOOLPROXY
 }
 
+
 dns_takeover(){
 	ss_chromecast=`uci -q get shadowsocks.@global[0].dns_53`
 	ss_enable=`iptables -t nat -L PREROUTING | grep SHADOWSOCKS |wc -l`
@@ -507,7 +509,7 @@ my_rule_diy(){
 }
 
 new_kpr_version(){
-	url_version="https://dev.tencent.com/u/shaoxia1991/p/koolproxyr/git/raw/master/version"
+	url_version="https://shaoxia1991.coding.net/p/koolproxyr/d/koolproxyr/git/raw/master/version"
 	wget --no-check-certificate --timeout=8 -qO - $url_version > /tmp/version
 	koolproxyR_installing_version=`cat /tmp/version  | sed -n '1p'`
 	echo_date 获取到最新在线版本为：$koolproxyR_installing_version！
